@@ -99,8 +99,10 @@ LITTLE = morph_pipeline([
 
 LITERAL = morph_pipeline([
     'два',
+    'двое',
     'один',
     'три',
+    'трое',
     'их',
     'её'
 ])
@@ -143,3 +145,42 @@ KIDS_NUMBER = or_(
 ).interpretation(
     KidsNumber
 )
+
+# # # #
+
+kids_food = fact('kids_food', ['childrens', 'food'])
+
+DIETIC = morph_pipeline([
+    'диетические блюда',
+    'специализированное питание',
+    'диета',
+    'питание'
+]).interpretation(
+    kids_food.food
+)
+
+KIDS_FOOD_1 = rule(
+    DIETIC,
+    FOR.optional(),
+    CHILDRENS.interpretation(
+        kids_food.childrens
+    )
+)
+
+KIDS_FOOD_2 = rule(
+    CHILDRENS.interpretation(
+        kids_food.childrens
+    ),
+    type('RU').repeatable(max=2),
+    DIETIC
+)
+
+KIDS_FOOD = or_(
+    KIDS_FOOD_1,
+    KIDS_FOOD_2
+).interpretation(
+    kids_food
+)
+
+
+
