@@ -38,6 +38,9 @@ BED = morph_pipeline([
     Bed
 )
 
+Children_neces = fact('Children_neces', ['childrens_word','neces'])
+
+
 NECES = or_(
     BED,
     CLUB
@@ -45,7 +48,6 @@ NECES = or_(
     Children_neces.neces
 )
 
-Children_neces = fact('Children_neces', ['childrens_word','neces'])
 
 CHILDREN_NECES_1 = rule(
     NECES,
